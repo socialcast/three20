@@ -179,6 +179,9 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
   NSMutableData* body = [NSMutableData data];
   NSString* beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kStringBoundary];
 
+  [body appendData:[[NSString stringWithFormat:@"--%@\r\n", kStringBoundary]
+    dataUsingEncoding:NSUTF8StringEncoding]];
+
   for (id key in [_parameters keyEnumerator]) {
     NSString* value = [_parameters valueForKey:key];
     // Really, this can only be an NSString. We're cheating here.
@@ -209,16 +212,15 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
     }
   }
 
-  for (NSInteger i = 0; i < _files.count; i += 4) {
+  for (NSInteger i = 0; i < _files.count; i += 3) {
     NSData* data = [_files objectAtIndex:i];
-    NSString* name = [_files objectAtIndex:i+1];
-    NSString* mimeType = [_files objectAtIndex:i+2];
-    NSString* fileName = [_files objectAtIndex:i+3];
+    NSString* mimeType = [_files objectAtIndex:i+1];
+    NSString* fileName = [_files objectAtIndex:i+2];
 
     [body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:
                        @"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n",
-                       name, fileName]
+                       fileName, fileName]
           dataUsingEncoding:_charsetForMultipart]];
     [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", data.length]
           dataUsingEncoding:_charsetForMultipart]];
@@ -300,18 +302,11 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)addFile:(NSData*)data mimeType:(NSString*)mimeType fileName:(NSString*)fileName {
-  [self addFile:data name:fileName mimeType:mimeType fileName:fileName];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)addFile:(NSData*)data name:(NSString*)name mimeType:(NSString*)mimeType
-       fileName:(NSString*)fileName {
   if (!_files) {
     _files = [[NSMutableArray alloc] init];
   }
 
   [_files addObject:data];
-  [_files addObject:name];
   [_files addObject:mimeType];
   [_files addObject:fileName];
 }
