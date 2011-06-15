@@ -287,8 +287,8 @@ static const CGFloat kUITextViewVerticalPadding = 8;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutSubviews {
   CGRect frame = CGRectMake(0, 2, self.width-kPaddingX*2, self.height);
-  _textView.frame = CGRectOffset(TTRectContract(frame, 0, 10), 0, 7);
-  _textField.frame = CGRectOffset(TTRectContract(frame, 9, 14), 9, 7);
+  _textView.frame = CGRectOffset(TTRectContract(frame, 4, 10), 4, 7);
+  _textField.frame = CGRectOffset(TTRectContract(frame, 12, 14), 12, 7);
 }
 
 
