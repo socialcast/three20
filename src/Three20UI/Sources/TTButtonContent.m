@@ -151,7 +151,7 @@
       }
 
     } else {
-      TTImageStyle* imageStyle = [_style firstStyleOfClass:[TTImageStyle class]]
+      TTImageStyle* imageStyle = [_style firstStyleOfClass:[TTImageStyle class]];
       if (imageStyle && imageStyle.defaultImage) {
         self.image = imageStyle.defaultImage;
       }
