@@ -157,7 +157,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)autoSearch {
-  if (_searchesAutomatically && self.text.length) {
+  if (_searchesAutomatically) {
     [self search];
   }
 }

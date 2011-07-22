@@ -449,7 +449,7 @@
       : [self defaultTitleForLoading];
       if (title.length) {
         TTActivityLabel* label =
-          [[[TTActivityLabel alloc] initWithStyle:TTActivityLabelStyleWhiteBox]
+          [[[TTActivityLabel alloc] initWithStyle:TTActivityLabelStyleWhite]
            autorelease];
         label.text = title;
         label.backgroundColor = _tableView.backgroundColor;

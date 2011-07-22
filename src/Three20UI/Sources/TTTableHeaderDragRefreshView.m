@@ -129,10 +129,21 @@
     [self addSubview:_arrowImage];
 
     _activityView = [[UIActivityIndicatorView alloc]
-                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     _activityView.frame = CGRectMake( 30.0f, frame.size.height - 38.0f, 20.0f, 20.0f );
     _activityView.hidesWhenStopped  = YES;
     [self addSubview:_activityView];
+
+    UIView* blackStripe = [[[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height-2,
+                                                                    frame.size.width, 1)]
+                             autorelease];
+    blackStripe.backgroundColor = [UIColor blackColor];
+    [self addSubview:blackStripe];
+    UIView* alphaStripe = [[[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height-1,
+                                                                    frame.size.width, 1)]
+                             autorelease];
+    alphaStripe.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    [self addSubview:alphaStripe];
   }
   return self;
 }

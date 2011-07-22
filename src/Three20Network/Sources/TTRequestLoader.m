@@ -208,7 +208,20 @@ static const NSInteger kLoadMaxRetries = 2;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSError*)processResponse:(NSHTTPURLResponse*)response data:(id)data {
   for (TTURLRequest* request in _requests) {
-    NSError* error = [request.response request:request processResponse:response data:data];
+    NSError* error = nil;
+    // We need to accept valid HTTP status codes, not only 200.
+    if ((response == nil && data != nil) || (response.statusCode >= 200 && response.statusCode < 300) || response.statusCode == 304) {
+      error = [request.response request:request processResponse:response data:data];
+    } else {
+      if ([request.response respondsToSelector:@selector(request:processErrorResponse:data:)]) {
+        error = [request.response request:request processErrorResponse:response data:data];
+      }
+      // Supply an NSError object if request.response's
+      // request:processErrorResponse:data: does not return one.
+      if (!error) {
+        error = [NSError errorWithDomain:NSURLErrorDomain code:_response.statusCode userInfo:nil];
+      }
+    }
     if (error) {
       return error;
     }
@@ -334,19 +347,10 @@ static const NSInteger kLoadMaxRetries = 2;
 
   TTDCONDITIONLOG(TTDFLAG_ETAGS, @"Response status code: %d", _response.statusCode);
 
-  // We need to accept valid HTTP status codes, not only 200.
-  if (_response.statusCode >= 200 && _response.statusCode < 300) {
-    [_queue loader:self didLoadResponse:_response data:_responseData];
-
-  } else if (_response.statusCode == 304) {
+  if (_response.statusCode == 304) {
     [_queue loader:self didLoadUnmodifiedResponse:_response];
-
   } else {
-    TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"  FAILED LOADING (%d) %@",
-                    _response.statusCode, _urlPath);
-    NSError* error = [NSError errorWithDomain:NSURLErrorDomain code:_response.statusCode
-                                     userInfo:nil];
-    [_queue loader:self didFailLoadWithError:error];
+    [_queue loader:self didLoadResponse:_response data:_responseData];
   }
 
   TT_RELEASE_SAFELY(_responseData);

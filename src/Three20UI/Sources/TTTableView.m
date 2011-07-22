@@ -74,16 +74,18 @@ static const CGFloat kCancelHighlightThreshold = 4;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-  [super touchesBegan:touches withEvent:event];
-
-  if ([self.delegate respondsToSelector:@selector(tableView:touchesBegan:withEvent:)]) {
-    id<TTTableViewDelegate> delegate = (id<TTTableViewDelegate>)self.delegate;
-    [delegate tableView:self touchesBegan:touches withEvent:event];
-  }
-
   if (_highlightedLabel) {
     UITouch* touch = [touches anyObject];
     _highlightStartPoint = [touch locationInView:self];
+
+  } else {
+    [super touchesBegan:touches withEvent:event];
+
+    if ([self.delegate respondsToSelector:@selector(tableView:touchesBegan:withEvent:)]) {
+      id<TTTableViewDelegate> delegate = (id<TTTableViewDelegate>)self.delegate;
+      [delegate tableView:self touchesBegan:touches withEvent:event];
+    }
+
   }
 
 //  if (_menuView) {
@@ -104,13 +106,6 @@ static const CGFloat kCancelHighlightThreshold = 4;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-  [super touchesEnded:touches withEvent:event];
-
-  if ([self.delegate respondsToSelector:@selector(tableView:touchesEnded:withEvent:)]) {
-    id<TTTableViewDelegate> delegate = (id<TTTableViewDelegate>)self.delegate;
-    [delegate tableView:self touchesEnded:touches withEvent:event];
-  }
-
   if (_highlightedLabel) {
     TTStyledElement* element = _highlightedLabel.highlightedNode;
     // This is a dirty hack to decouple the UI from Style. TTOpenURL was originally within
@@ -126,6 +121,15 @@ static const CGFloat kCancelHighlightThreshold = 4;
     } else {
       [element performDefaultAction];
     }
+
+  } else {
+    [super touchesEnded:touches withEvent:event];
+
+    if ([self.delegate respondsToSelector:@selector(tableView:touchesEnded:withEvent:)]) {
+      id<TTTableViewDelegate> delegate = (id<TTTableViewDelegate>)self.delegate;
+      [delegate tableView:self touchesEnded:touches withEvent:event];
+    }
+
   }
 }
 
