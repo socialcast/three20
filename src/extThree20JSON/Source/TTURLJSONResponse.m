@@ -88,5 +88,44 @@
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (NSError*)request:(TTURLRequest*)request processErrorResponse:(NSHTTPURLResponse*)response
+               data:(id)data {
+    // This response is designed for NSData objects, so if we get anything else it's probably a
+    // mistake.
+    TTDASSERT([data isKindOfClass:[NSData class]]);
+    TTDASSERT(nil == _rootObject);
+    NSError* err = nil;
+    if ([data isKindOfClass:[NSData class]]) {
+#ifdef EXTJSON_SBJSON
+        NSString* json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        _rootObject = [[json JSONValue] retain];
+        TT_RELEASE_SAFELY(json);
+        if (!_rootObject) {
+            err = [NSError errorWithDomain:kTTExtJSONErrorDomain
+                                      code:kTTExtJSONErrorCodeInvalidJSON
+                                  userInfo:nil];
+        } else {
+            err = [NSError errorWithDomain:kTTExtJSONErrorDomain
+                                      code:0
+                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:_rootObject,
+                                            @"ErrorResponse", nil]];
+        }
+#elif defined(EXTJSON_YAJL)
+        @try {
+            _rootObject = [[data yajl_JSON] retain];
+        }
+        @catch (NSException* exception) {
+            err = [NSError errorWithDomain:kTTExtJSONErrorDomain
+                                      code:kTTExtJSONErrorCodeInvalidJSON
+                                  userInfo:[exception userInfo]];
+        }
+#endif
+    }
+    
+    return err;
+}
+
+
 @end
 

@@ -138,7 +138,7 @@ static const CGFloat kMoreButtonMargin = 40;
 - (UIActivityIndicatorView*)activityIndicatorView {
   if (!_activityIndicatorView) {
     _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
-                              UIActivityIndicatorViewStyleGray];
+                              UIActivityIndicatorViewStyleWhite];
     [self.contentView addSubview:_activityIndicatorView];
   }
 
