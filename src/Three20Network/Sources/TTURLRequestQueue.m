@@ -350,7 +350,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   }
 
   for (id<TTURLRequestDelegate> delegate in request.delegates) {
-    TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]); 
+    TTDPRINT(@"DELEGATE CLASS %@", [delegate class]);
     if ([delegate respondsToSelector:@selector(requestDidStartLoad:)]) {
       [delegate requestDidStartLoad:request];
     }
