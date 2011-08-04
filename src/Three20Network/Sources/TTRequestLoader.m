@@ -133,6 +133,7 @@ static const NSInteger kLoadMaxRetries = 2;
     request.totalBytesExpected = bytesExpected;
 
     for (id<TTURLRequestDelegate> delegate in request.delegates) {
+      TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]);
       if ([delegate respondsToSelector:@selector(requestDidUploadData:)]) {
         [delegate requestDidUploadData:request];
       }
@@ -214,6 +215,7 @@ static const NSInteger kLoadMaxRetries = 2;
     request.isLoading = NO;
 
     for (id<TTURLRequestDelegate> delegate in request.delegates) {
+      TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]);
       if ([delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         [delegate requestDidCancelLoad:request];
       }
@@ -272,6 +274,7 @@ static const NSInteger kLoadMaxRetries = 2;
     request.isLoading = NO;
 
     for (id<TTURLRequestDelegate> delegate in request.delegates) {
+      TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]);
       if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
         [delegate request:request didFailLoadWithError:error];
       }
@@ -287,6 +290,7 @@ static const NSInteger kLoadMaxRetries = 2;
     request.isLoading = NO;
 
     for (id<TTURLRequestDelegate> delegate in request.delegates) {
+      TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]);
       if ([delegate respondsToSelector:@selector(requestDidFinishLoad:)]) {
         [delegate requestDidFinishLoad:request];
       }
@@ -300,6 +304,7 @@ static const NSInteger kLoadMaxRetries = 2;
   for (TTURLRequest* request in [[_requests copy] autorelease]) {
 
     for (id<TTURLRequestDelegate> delegate in request.delegates) {
+      TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"DELEGATE CLASS %@", [delegate class]);
       if ([delegate respondsToSelector:@selector(request:didReceiveAuthenticationChallenge:)]) {
         [delegate request:request didReceiveAuthenticationChallenge:challenge];
       }
