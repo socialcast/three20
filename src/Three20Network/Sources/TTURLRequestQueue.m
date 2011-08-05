@@ -350,7 +350,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   }
 
   for (id<TTURLRequestDelegate> delegate in request.delegates) {
-    TTDPRINT(@"DELEGATE CLASS %@", [delegate class]);
+    TTDPRINT(@"DELEGATE CLASS %@ | URL: %@", [delegate class], request.urlPath);
     if ([delegate respondsToSelector:@selector(requestDidStartLoad:)]) {
       [delegate requestDidStartLoad:request];
     }
