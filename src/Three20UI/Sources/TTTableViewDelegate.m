@@ -209,7 +209,8 @@ static const NSUInteger kFirstTableSection = 0;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
-  [TTURLRequestQueue mainQueue].suspended = YES;
+  // Socialcast tweak
+  // [TTURLRequestQueue mainQueue].suspended = YES;
   return YES;
 }
 
@@ -230,7 +231,8 @@ static const NSUInteger kFirstTableSection = 0;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-  [TTURLRequestQueue mainQueue].suspended = YES;
+  // Socialcast tweak
+  // [TTURLRequestQueue mainQueue].suspended = YES;
 
   [_controller didBeginDragging];
 

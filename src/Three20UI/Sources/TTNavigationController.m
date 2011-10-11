@@ -43,7 +43,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)pushViewController: (UIViewController*)controller
     animatedWithTransition: (UIViewAnimationTransition)transition {
-  [TTURLRequestQueue mainQueue].suspended = YES;
+  // Socialcast tweak
+  // [TTURLRequestQueue mainQueue].suspended = YES;
 
   [super pushViewController:controller animatedWithTransition:transition];
 }
@@ -51,7 +52,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIViewController*)popViewControllerAnimatedWithTransition:(UIViewAnimationTransition)transition {
-  [TTURLRequestQueue mainQueue].suspended = YES;
+  // Socialcast tweak
+  // [TTURLRequestQueue mainQueue].suspended = YES;
 
   return [super popViewControllerAnimatedWithTransition:transition];
 }
