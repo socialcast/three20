@@ -14,46 +14,36 @@
 // limitations under the License.
 //
 
-#import "Three20UI/TTNavigationController.h"
+#import "Three20UI/TTTableSection.h"
 
-// Network
-#import "Three20Network/TTURLRequestQueue.h"
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@implementation TTNavigationController
+// Core
+#import "Three20Core/TTCorePreprocessorMacros.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark Public
+///////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation TTTableSection
+
+@synthesize headerTitle     = _headerTitle;
+@synthesize footerTitle  = _footerTitle;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)pushAnimationDidStop {
-  [TTURLRequestQueue mainQueue].suspended = NO;
-
-  [super pushAnimationDidStop];
++ (id)sectionWithHeaderTitle:(NSString*)headerTitle footerTitle:(NSString*)footerTitle {
+  TTTableSection* item = [[[self alloc] init] autorelease];
+  item.headerTitle = headerTitle;
+  item.footerTitle = footerTitle;
+  return item;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)pushViewController: (UIViewController*)controller
-    animatedWithTransition: (UIViewAnimationTransition)transition {
-  [TTURLRequestQueue mainQueue].suspended = YES;
+- (void)dealloc {
+  TT_RELEASE_SAFELY(_headerTitle);
+  TT_RELEASE_SAFELY(_footerTitle);
 
-  [super pushViewController:controller animatedWithTransition:transition];
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIViewController*)popViewControllerAnimatedWithTransition:(UIViewAnimationTransition)transition {
-  [TTURLRequestQueue mainQueue].suspended = YES;
-
-  return [super popViewControllerAnimatedWithTransition:transition];
+  [super dealloc];
 }
 
 

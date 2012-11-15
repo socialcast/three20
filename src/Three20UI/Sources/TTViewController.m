@@ -109,15 +109,7 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-  // Socialcast tweak
-  // [TTURLRequestQueue mainQueue].suspended = YES;
-
-  // Ugly hack to work around UISearchBar's inability to resize its text field
-  // to avoid being overlapped by the table section index
-//  if (_searchController && !_searchController.active) {
-//    [_searchController setActive:YES animated:NO];
-//    [_searchController setActive:NO animated:NO];
-//  }
+  [TTURLRequestQueue mainQueue].suspended = YES;
 }
 
 
